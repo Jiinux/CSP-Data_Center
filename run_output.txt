@@ -1,0 +1,82 @@
+SERVER FARM WORKLOAD ALLOCATION - CSP
+Virtual Machines: VM1, VM2, VM3, VM4
+Available racks: Rack A, Rack B, Rack C
+
+==================================================
+SCENARIO: Original constraints
+==================================================
+Constraints:
+  - Anti-Affinity
+  - Capacity Control
+  - Network Isolation
+
+[Naive Backtracking]
+Valid assignment:
+  VM1 -> Rack A
+  VM2 -> Rack B
+  VM3 -> Rack A
+  VM4 -> Rack A
+Nodes explored: 5
+Backtracks: 1
+Time (microseconds): 20.267
+
+[MRV + Forward Checking]
+Valid assignment:
+  VM1 -> Rack A
+  VM2 -> Rack B
+  VM3 -> Rack A
+  VM4 -> Rack A
+Nodes explored: 4
+Backtracks: 0
+Time (microseconds): 16.543
+
+==================================================
+SCENARIO: Relaxed: Network Isolation removed
+==================================================
+Constraints:
+  - Anti-Affinity
+  - Capacity Control
+
+[Naive Backtracking]
+Valid assignment:
+  VM1 -> Rack A
+  VM2 -> Rack B
+  VM3 -> Rack A
+  VM4 -> Rack A
+Nodes explored: 5
+Backtracks: 1
+Time (microseconds): 1.935
+
+[MRV + Forward Checking]
+Valid assignment:
+  VM1 -> Rack A
+  VM2 -> Rack B
+  VM3 -> Rack A
+  VM4 -> Rack A
+Nodes explored: 4
+Backtracks: 0
+Time (microseconds): 8.99
+
+==================================================
+SCENARIO: Conflict: VM4 must be Rack C
+==================================================
+Constraints:
+  - Anti-Affinity
+  - Capacity Control
+  - Network Isolation
+  - Experimental: VM4 must use Rack C
+
+[Naive Backtracking]
+No valid solution exists for this scenario.
+Nodes explored: 84
+Backtracks: 84
+Time (microseconds): 17.918
+
+[MRV + Forward Checking]
+No valid solution exists for this scenario.
+Nodes explored: 3
+Backtracks: 3
+Time (microseconds): 27.133
+
+Results saved to results/execution_results.csv
+Program finished.
